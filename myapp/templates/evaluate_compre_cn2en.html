@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comprehension Check</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+<body class="is-preload">
+<div id="page-wrapper">
+    <body>
+    <header id="header">
+        <h1 class="logo-text"><a href="/">Recipe Cultural Adaptation Project</a></h1>
+        <nav id="nav">
+            {#            <ul>#}
+            {#                <li><a href="/" )>Home</a></li>#}
+            {#                {% if request.session.is_login %}#}
+            {#                    <li><a href="/logout/" class="button">Log out</a></li>#}
+            {#                {% else %}#}
+            {#                    <li><a href="/loginin/" class="button">Sign in</a></li>#}
+            {#                {% endif %}#}
+            {#            </ul>#}
+        </nav>
+    </header>
+    <style>
+
+        /* 居中对齐文本 */
+        .center {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .submit_button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 3px;
+            width: auto
+        }
+
+        /* 左右模块布局 */
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 模块样式 */
+        .module {
+            flex: 1;
+            border: 1px solid #ccc;
+            margin: 0 auto;
+            width: 800px;
+            text-align: left;
+        }
+
+        .info_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 10vh;
+        }
+
+        .push_button {
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 3px;
+            display: inline-block;
+            width: auto
+        }
+
+        .grammar-label {
+            color: blue;
+        }
+
+        .push_button:hover {
+            opacity: 0.8;
+        }
+
+        .qs-content-wrapper {
+            margin-top: 30px; /* Increase the margin-top to create space for the heading */
+            text-align: center;
+        }
+    </style>
+
+    <div class="center">
+        <h2>Comprehension Study</h2>
+        <h4><u>Please read the following recipe and answer the following three questions. You'll have <span
+                style="color:red">two chances</span> to get a correct answer.</u></h4>
+        {% if request.GET.left_time %}
+            <h4 style="color:red">Note: This is your second chance to pass the comprehension evaluation.</h4>
+            <script>
+                var confirmation = confirm("We apologize that you did not pass the comprehension evaluation. Would you like to have another attempt?");
+                if (confirmation) {
+                    // 用户选择继续当前页面
+                } else {
+                    // 用户选择跳转到结束页面
+                    window.location.href = "/stop_evaluation/";  // 跳转到结束页面的URL
+                }
+            </script>
+        {% endif %}
+        <div class="module">
+            <h4>Title: Nutritious Vegetable Soup</h4>
+            <h4>Ingredients: tomato, 1 carrot, 2 lean broth bones (beef leg is best)</h4>
+            <h4>Steps: <br>(1) Slice Carrots, Slice Greens, Slice Green Beans, Slice Lavenders, Slice Vermicelli, Slice Burritos, Slice Cabbage and Peel, and Cube Potatoes.
+                <br>(2) Combine all ingredients except bales and mushrooms in a large soup pot; bring to a boil, covered, for 2 hours.
+<br>(3) Remove the meat from the bone; cut into meat, cut into pieces and restore the soup; feed overnight; any fat; serve any fat on the ground; serve before grinding;</h4>
+        </div>
+    <br>
+        <form id="questionnaire-form" method="get" action="{% url 'submit_comprehension' %}">
+            <h4 for="q1">Question 1: How would you rate its grammatical
+                accuracy? (1 indicates very poor and <br> 7 indicates
+                grammatically accurate and fluent).<br> Hint: The grammar of this recipe is very poor.</h4>
+            <div class="rating-container">
+                <input type="radio" id="q1-rating1" name="question1" value="1" required>
+                <label for="q1-rating1">1</label>
+                <input type="radio" id="q1-rating2" name="question1" value="2" required>
+                <label for="q1-rating2">2</label>
+                <input type="radio" id="q1-rating3" name="question1" value="3" required>
+                <label for="q1-rating3">3</label>
+                <input type="radio" id="q1-rating4" name="question1" value="4" required>
+                <label for="q1-rating4">4</label>
+                <input type="radio" id="q1-rating5" name="question1" value="5" required>
+                <label for="q1-rating5">5</label>
+                <input type="radio" id="q1-rating6" name="question1" value="6" required>
+                <label for="q1-rating6">6</label>
+                <input type="radio" id="q1-rating7" name="question1" value="7" required>
+                <label for="q1-rating7">7</label>
+            </div>
+            <br>
+            <h4 for="q2">Question 2: Please rate
+                its coherence and consistency when it is presented as an executable recipe,<br> including
+                a coherent title, ingredients, and cooking steps. (1 = very poor consistency, 7 = excellent consistency).
+                <br> Hint: The consistency of this recipe is very poor. We cannot finish the dish with these instructions at all.
+            </h4>
+            <div class="rating-container">
+                <input type="radio" id="q2-rating1" name="question2" value="1" required>
+                <label for="q2-rating1">1</label>
+                <input type="radio" id="q2-rating2" name="question2" value="2" required>
+                <label for="q2-rating2">2</label>
+                <input type="radio" id="q2-rating3" name="question2" value="3" required>
+                <label for="q2-rating3">3</label>
+                <input type="radio" id="q2-rating4" name="question2" value="4" required>
+                <label for="q2-rating4">4</label>
+                <input type="radio" id="q2-rating5" name="question2" value="5" required>
+                <label for="q2-rating5">5</label>
+                <input type="radio" id="q2-rating6" name="question2" value="6" required>
+                <label for="q2-rating6">6</label>
+                <input type="radio" id="q2-rating7" name="question2" value="7" required>
+                <label for="q2-rating7">7</label>
+            </div>
+            <br>
+            <h4 for="q4">Question 3: Please rate the extent to which it fits within Western cooking culture,
+                <br>is consistent with Western cooking knowledge, and meets a Western recipe's style.
+                <br>(1 = does not fit at all, 7 = fits perfectly).
+                <br> Hint: This recipe does not conform to Western cooking culture at all.
+            </h4>
+            <div class="rating-container">
+                <input type="radio" id="q4-rating1" name="question4" value="1" required>
+                <label for="q4-rating1">1</label>
+                <input type="radio" id="q4-rating2" name="question4" value="2" required>
+                <label for="q4-rating2">2</label>
+                <input type="radio" id="q4-rating3" name="question4" value="3" required>
+                <label for="q4-rating3">3</label>
+                <input type="radio" id="q4-rating4" name="question4" value="4" required>
+                <label for="q4-rating4">4</label>
+                <input type="radio" id="q4-rating5" name="question4" value="5" required>
+                <label for="q4-rating5">5</label>
+                <input type="radio" id="q4-rating6" name="question4" value="6" required>
+                <label for="q4-rating6">6</label>
+                <input type="radio" id="q4-rating7" name="question4" value="7" required>
+                <label for="q4-rating7">7</label>
+                <br>
+                <button type="submit" id="Submit_Button" class="submit_button">Submit</button>
+                <input type="hidden" name="user_email" value="{{ request.GET.user_email }}">
+                <input type="hidden" name="direction" value="cn2en">
+            </div>
+        </form>
+    </div>
+
+    </body>
+</html>
+

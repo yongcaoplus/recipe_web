@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Page</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .custom-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.9s ease-in-out;
+        }
+
+        .registration-container {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .registration-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .registration-container input[type="text"],
+        .registration-container input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .registration-container button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            font-size: 16px;
+            border-radius: 3px;
+        }
+
+        .registration-container button:hover {
+            opacity: 0.8;
+        }
+
+        .center-align {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="registration-container">
+    <h2>Registration</h2>
+    <form>
+        <p class="center-align"> * We will use your email as your user identifications <br> and not collect your private
+            data.</p>
+        <input type="text" id="email" placeholder="Your Email" required>
+        <input type="text" id="confirmemail" placeholder="Confirm Your Email" required>
+        <button type="submit" id="registerBtn">Register</button>
+        <div id="alertBox" class="custom-alert" style="display: none;"></div>
+    </form>
+</div>
+</body>
+</html>
+
+<script>
+    document.getElementById("registerBtn").addEventListener("click", function (event) {
+        event.preventDefault();
+        var email = document.getElementById("email").value.toLowerCase().trim();
+        var confirmemail = document.getElementById("confirmemail").value.toLowerCase().trim();
+        // 定义电子邮件的正则表达式模式
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var alertBox = document.getElementById("alertBox");
+        // 检查输入的文本是否为有效的电子邮件格式
+        if (!emailPattern.test(email) || !emailPattern.test(confirmemail)) {
+            alertBox.textContent = "Email Format is not correct. Please try again";
+            alertBox.style.display = "block";
+            setTimeout(function () {
+                alertBox.style.display = "none";
+            }, 1000);
+            document.getElementById("confirmemail").value = "";
+        } else {
+            if (email == confirmemail) {
+                var data = {
+                    email: email
+                };
+                // 发送POST请求
+                fetch('/register_user/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json(); // 解析响应数据为JSON
+                        } else {
+                            throw new Error('Registration failed'); // 抛出错误，进入catch块
+                        }
+                    })
+                    .then(data => {
+                        if (data['data'] === 1) {
+                            console.log("Registration successful!");
+                            alertBox.textContent = "Congratulations, Registration succeeded! Log in.";
+                            alertBox.style.display = "block";
+                            setTimeout(function () {
+                                alertBox.style.display = "none";
+                                window.location.href = "/"; // 注册成功后重定向到登录页面
+                                // 其他代码...
+                            }, 1500);
+                        } else if (data['data'] === 0) {
+                            console.log("User already exists!");
+                            alertBox.textContent = "User already exists. Log in.";
+                            alertBox.style.display = "block";
+                            setTimeout(function () {
+                                alertBox.style.display = "none";
+                                window.location.href = "/"; // 用户已存在，重定向到其他页面
+                                // 其他代码...
+                            }, 1500);
+                        } else {
+                            console.log("Invalid request!");
+                            // 处理其他情况
+                        }
+                    })
+                    .catch(error => {
+                        console.log("Error:", error);
+                    });
+            } else {
+                alertBox.textContent = "Email is different, please try again.";
+                alertBox.style.display = "block";
+                setTimeout(function () {
+                    alertBox.style.display = "none";
+                }, 1000);
+                document.getElementById("confirmemail").value = "";
+            }
+        }
+    });
+</script>
+
+<script>
+  // 获取传递的email参数
+  var emailParam = "{{ email }}";
+  {#console.log(emailParam);#}
+  // 检查email参数是否存在
+  if (emailParam!="None") {
+    // 初始化email输入框的值
+    document.getElementById("email").value = emailParam;
+  }
+</script>

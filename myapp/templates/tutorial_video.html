@@ -1,0 +1,146 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<body>#}
+{#    {% load static %}#}
+{#    src="{% static 'video.mp4' %}"#}
+{#<div class="container">#}
+{#    <video id="videoPlayer" controls>#}
+{#        <source src="{% static 'video.mp4' %}" type="video/mp4">#}
+{#        Your browser does not support the video tag.#}
+{#    </video>#}
+{#</div>#}
+{#</body>#}
+{#</html>#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/font-awesome-4.7.0/css/font-awesome.css">
+
+    <!-- <script src="./jquery-3.5.1.js"></script> -->
+    <script>
+        // jQuery实现
+        // $(function(){
+        //     var video = $("video")[0];
+        //     $("button").click(function(){
+        //         if($(this).text()==="播放"){
+        //             video.play();
+        //         }
+
+        //         if($(this).text()==="暂停"){
+        //              video.pause();
+        //         }
+
+        //         if($(this).text()==="前进"){
+        //             video.currentTime += 5;
+        //         }
+
+        //         if($(this).text()==="后退"){
+        //             video.currentTime -= 5;
+        //         }
+        //     })
+        // })
+
+        // 原生js实现
+          window.onload = function(){
+            // 视频
+              var video = document.getElementsByTagName("video")[0];
+              var progressTimer = document.querySelector('.progress_timer');
+              var durationTimer = document.querySelector('.duration_timer');
+              var progress = document.querySelector('.progress');
+            //   console.log(video);
+            let {totalT,presentT} = {totalT:0,presentT:0}
+            //获取视频总时间
+            video.addEventListener('canplay',function(){
+                totalT = this.duration;
+                var videoDuration = formatTime(totalT);
+                durationTimer.innerHTML = videoDuration;
+            })
+            //获取视频当前播放的时间
+            video.addEventListener('timeupdate',function(){
+                presentT = this.currentTime;
+                var videoCurrent = formatTime(presentT);
+                progressTimer.innerHTML = videoCurrent;
+                // 进度条
+                var percent = presentT/totalT*100;
+                progress.style.width = percent+'%';
+            })
+            function formatTime(t){
+                var h = parseInt(t/3600);
+                h = h<10?'0'+h:h;
+                var m = parseInt(t%3600/60);
+                m = m<10?'0'+m:m;
+                var s = parseInt(t%60);
+                s = s<10?'0'+s:s;
+                return h+':'+m+':'+s;
+            }
+            // console.log(video.currentTime);
+            // 播放
+              document.getElementById("one").onclick = function(){
+                      video.play();
+              }
+            // 暂停
+              document.getElementById("two").onclick = function(){
+                  video.pause();
+              }
+            // 快进
+              document.getElementById("three").onclick = function(){
+                  video.currentTime += 1/25;
+                  console.log(video.currentTime);
+              }
+            // 后退
+              document.getElementById("four").onclick = function(){
+                  video.currentTime -= 1/25;
+              }
+
+             // 音频
+              var audio = document.getElementsByTagName("audio")[0];
+              console.log(audio);
+            //   播放
+              document.getElementById("five").onclick = function(){
+                audio.play();
+              }
+            // 暂停
+              document.getElementById("six").onclick = function(){
+                  audio.pause();
+              }
+            // 快进
+              document.getElementById("seven").onclick = function(){
+                  audio.currentTime += 5;
+              }
+            // 后退
+              document.getElementById("eight").onclick = function(){
+                  audio.currentTime -= 5;
+              }
+          }
+    </script>
+</head>
+<body>
+    <div class="wrap">
+        <div class="content">
+            <div class="player">
+                {% load static %}
+                <video src="{% static 'video.mp4' %}" type="video/mp4"></video>
+                <div class="control">
+                    <div>
+                        <span class="progress"></span>
+                    </div>
+                    <div class="timer">
+                        <span class="progress_timer">00:00:00</span>/
+                        <span class="duration_timer">00:00:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="one">播放</button>
+        <button id="two">暂停</button>
+        <button id="three">快进</button>
+        <button id="four">后退</button>
+    </div>
+</body>
+</html>
+

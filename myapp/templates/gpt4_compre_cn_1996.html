@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Generation Evaluation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+<!-- <body class="is-preload"> -->
+<!-- <div id="page-wrapper">
+    <body> -->
+    <!-- <header id="header">
+        <h1 class="logo-text">Cultural Adaptation Project</h1>
+        <nav id="nav">
+        </nav>
+    </header> -->
+    <style>
+
+        /* 居中对齐文本 */
+        .center {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .submit_button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 3px;
+            width: auto
+        }
+
+        /* 左右模块布局 */
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 模块样式 */
+        .module {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .info_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 10vh;
+        }
+
+        .push_button {
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 3px;
+            display: inline-block;
+            width: auto
+        }
+
+        .grammar-label {
+            color: blue;
+        }
+        .warning-label {
+            color: red;
+        }
+
+        .push_button:hover {
+            opacity: 0.8;
+        }
+
+        .qs-content-wrapper {
+            margin-top: 30px; /* Increase the margin-top to create space for the heading */
+            text-align: center;
+        }
+
+        .module img {
+    height: 200px; /* 设置图片的高度为200像素 */
+    width: auto;   /* 宽度自适应 */
+    display: block; /* 使图像居中显示 */
+    margin: 0 auto; /* 设置左右外边距为auto，实现水平居中 */
+}
+    </style>
+
+<div class="center">
+    <h2>文本生成质量评估 (注意力测试)    </h2>
+    <h4><u>请阅读下面的两张图片和两句话描述，并对下面的5个问题进行评分。<br>
+    <span class="warning-label">请注意：只有当您通过注意力测试，才能进行正式评估任务。请根据下列教程完成选择。</span></u></h4>
+</div>
+<!-- 左右模块布局 -->
+<div class="container">
+    <!-- 左边模块 -->
+    <div class="module">
+        <h3>左图</h3>
+        <img src="{% static 'marvl_attention_check/comp_fig0.jpg' %}" alt="Image 1">
+    </div>
+    <!-- 右边模块 -->
+    <div class="module">
+        <h3>右图</h3>
+        <img src="{% static 'marvl_attention_check/comp_fig1.jpg' %}" alt="Image 2">
+    </div>
+</div>
+<div class="container"><div class="module"><h4>句子a: 左图一个女孩在单独跳舞，右图几个人在一起跳舞。</h4>
+<h4>句子b: 左图女孩在一个人优雅的跳芭蕾,右图表演者在展示弗拉明戈舞。</h4></div>
+</div>
+
+<div class="qs-content-wrapper">
+    <h2>问题</h2>
+    <!-- <h4><u>* 除非特殊说明, 以下问题的评估对象为文化适应后的食谱 (<span style="color:red">右</span>)，评分从<span style="color:red">1-7</span>分。</u></h4> -->
+    <form id="questionnaire-form" method="get" action="{% url 'submit_compre_cn_1996' %}">
+        <h4 for="q1"><span class="grammar-label">正确性(句子a)--</span> 问题1：句子a能够正确描述两张图片的内容。<br>(1表示完全错误，7表示完全正确)。</h4>
+        <h5><u>提示：这里的句子a表述内容基本正确，因此可以选择4-7分。</u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q1-rating1" name="question1" value="1" required>
+            <label for="q1-rating1">1</label>
+            <input type="radio" id="q1-rating2" name="question1" value="2" required>
+            <label for="q1-rating2">2</label>
+            <input type="radio" id="q1-rating3" name="question1" value="3" required>
+            <label for="q1-rating3">3</label>
+            <input type="radio" id="q1-rating4" name="question1" value="4" required>
+            <label for="q1-rating4">4</label>
+            <input type="radio" id="q1-rating5" name="question1" value="5" required>
+            <label for="q1-rating5">5</label>
+            <input type="radio" id="q1-rating6" name="question1" value="6" required>
+            <label for="q1-rating6">6</label>
+            <input type="radio" id="q1-rating7" name="question1" value="7" required>
+            <label for="q1-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q2"><span class="grammar-label">蕴含文化(句子a)--</span> 问题2：句子a的描述内容和文化属性相关。
+            <br>(1分代表和文化完全没关系;7分代表和文化强相关)。</h4>
+        <h5><u>提示：这里的句子a和文化描述没什么关系，因此可以选择1-3分。</u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q2-rating1" name="question2" value="1" required>
+            <label for="q2-rating1">1</label>
+            <input type="radio" id="q2-rating2" name="question2" value="2" required>
+            <label for="q2-rating2">2</label>
+            <input type="radio" id="q2-rating3" name="question2" value="3" required>
+            <label for="q2-rating3">3</label>
+            <input type="radio" id="q2-rating4" name="question2" value="4" required>
+            <label for="q2-rating4">4</label>
+            <input type="radio" id="q2-rating5" name="question2" value="5" required>
+            <label for="q2-rating5">5</label>
+            <input type="radio" id="q2-rating6" name="question2" value="6" required>
+            <label for="q2-rating6">6</label>
+            <input type="radio" id="q2-rating7" name="question2" value="7" required>
+            <label for="q2-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q3"><span class="grammar-label">正确性(句子b)--</span> 问题3：句子b能够正确描述两张图片的内容。<br>(1表示完全错误，7表示完全正确)。</h4>
+        <h5><u>提示：这里的句子b表述内容基本正确，因此可以选择4-7分。</u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q3-rating1" name="question3" value="1" required>
+            <label for="q3-rating1">1</label>
+            <input type="radio" id="q3-rating2" name="question3" value="2" required>
+            <label for="q3-rating2">2</label>
+            <input type="radio" id="q3-rating3" name="question3" value="3" required>
+            <label for="q3-rating3">3</label>
+            <input type="radio" id="q3-rating4" name="question3" value="4" required>
+            <label for="q3-rating4">4</label>
+            <input type="radio" id="q3-rating5" name="question3" value="5" required>
+            <label for="q3-rating5">5</label>
+            <input type="radio" id="q3-rating6" name="question3" value="6" required>
+            <label for="q3-rating6">6</label>
+            <input type="radio" id="q3-rating7" name="question3" value="7" required>
+            <label for="q3-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q4"><span class="grammar-label">蕴含文化(句子b)--</span> 问题4：句子b的描述内容和文化属性相关。
+            <br>(1分代表和文化完全没关系;7分代表和文化强相关)。</h4>
+        <h5><u>提示：这里的句子b和文化描述有一定的关系，因此可以选择4-7分。</u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q4-rating1" name="question4" value="1" required>
+            <label for="q4-rating1">1</label>
+            <input type="radio" id="q4-rating2" name="question4" value="2" required>
+            <label for="q4-rating2">2</label>
+            <input type="radio" id="q4-rating3" name="question4" value="3" required>
+            <label for="q4-rating3">3</label>
+            <input type="radio" id="q4-rating4" name="question4" value="4" required>
+            <label for="q4-rating4">4</label>
+            <input type="radio" id="q4-rating5" name="question4" value="5" required>
+            <label for="q4-rating5">5</label>
+            <input type="radio" id="q4-rating6" name="question4" value="6" required>
+            <label for="q4-rating6">6</label>
+            <input type="radio" id="q4-rating7" name="question4" value="7" required>
+            <label for="q4-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q5"><span class="grammar-label">文本对比 --</span> 问题5：同时考虑正确性和文化适应性，句子a和句子b，哪个更适合作为两张图片的描述？</h4>
+        <h5><u>提示：明显句子b描述正确，且相较于a, 句子b和文化更相关，所以选择句子b。</u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q5-rating1" name="question5" value="1" required>
+            <label for="q5-rating1">1. 句子a</label>
+            <input type="radio" id="q5-rating2" name="question5" value="2" required>
+            <label for="q5-rating2">2. 句子b                </label> <br>
+            <input type="radio" id="q5-rating3" name="question5" value="3" required>
+            <label for="q5-rating3">3. 平局（质量相同，都很好）</label>
+            <input type="radio" id="q5-rating4" name="question5" value="4" required>
+            <label for="q5-rating4">4. 平局（质量相同，都很差）</label>
+            <br>
+                <button type="submit" id="Submit_Button" class="submit_button">提交</button>
+                <p id="user-progress" style="margin: 0;"></p>
+                <p id="user-username" style="margin: 0;"></p>
+                <input type="hidden" name="user_email" value="{{ request.GET.user_email }}">
+        </div>
+        <!-- Add more questions as needed -->
+    </form>
+</div>
+
+
+<script>
+    var startTime = new Date(); // 记录页面打开的时间
+    // 当提交按钮点击时计算时间差并设置隐藏字段的值
+    document.getElementById('Submit_Button').addEventListener('click', function () {
+        var currentTime = new Date();
+        var submissionTime = new Date(); // 当前时间作为提交时间
+        var evaluationTime = Math.floor((currentTime - startTime) / 1000); // 将时间差转换为整数秒数
+        // 设置隐藏字段的值
+        document.getElementById('submission_time_field').value = submissionTime.toISOString();
+        document.getElementById('evaluation_time_field').value = evaluationTime;
+    });
+</script>
+
+</body>
+</html>

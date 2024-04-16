@@ -1,0 +1,6 @@
+Django==3.2.19
+django-sslserver
+django-extensions
+django-werkzeug-debugger-runserver
+mysqlclient
+Werkzeug

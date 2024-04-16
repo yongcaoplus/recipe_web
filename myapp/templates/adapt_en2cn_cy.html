@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Collection</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+<body class="is-preload">
+<div id="page-wrapper">
+    <body>
+    <header id="header">
+        <h1 class="logo-text"><a href="/">Recipe Cultural Adaptation Project</a></h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="/" )>Home</a></li>
+                {% if request.session.is_login %}
+                    <li><a href="/logout/" class="button">Log out</a></li>
+                {% else %}
+                    <li><a href="/loginin/" class="button">Sign in</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <style>
+
+        /* 居中对齐文本 */
+        .center {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* 左右模块布局 */
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 模块样式 */
+        .module {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+
+        .info_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 10vh;
+        }
+
+        .push_button {
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 3px;
+            display: inline-block;
+            width: auto
+        }
+
+        .push_button:hover {
+            opacity: 0.8;
+        }
+    </style>
+
+    <div class="center">
+        <h2>食谱改写 (英语->中文)</h2>
+        <h4><u>根据您的烹饪知识和文化习惯，请将我们提供的英文菜谱(左)转换为中文菜谱(右)。感谢您的帮助！</u></h4>
+    </div>
+    <!-- 左右模块布局 -->
+    <div class="container">
+        <!-- 左边模块 -->
+        <div class="module">
+            <h2>{{ recipe.source_title }}</h2>
+            <h4>Ingredients：</h4>
+            <ol>
+                {% for ingredient in recipe.source_ingredients %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ol>
+            <h4>Steps：</h4>
+            <ol>
+                {% for ingredient in recipe.source_steps %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        <script>
+            // 捕获回车键事件
+            function preventSubmit(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // 阻止默认行为
+                }
+            }
+        </script>
+        <!-- 右边模块 -->
+        <div class="module">
+            <form method="post" action="{% url 'submit_adapt' %}">
+                <h2>请写下你的食谱</h2>
+                <h4>标题：</h4>
+                <input type="text" id="adapted-title" name="adapted_title" autocomplete="off"
+                       onkeydown="preventSubmit(event)" required>
+                <h4>配料：</h4>
+                <textarea id="adapted-ingredients" name="adapted_ingredients" required
+                          style="height: 200px;"></textarea>
+                <h4>步骤：</h4>
+                <textarea id="adapted-steps" name="adapted_steps" required style="height: 300px;"></textarea>
+                <h4>* 建议：</h4>
+                <input type="text" id="adapted-comments" name="adapted_comments" autocomplete="off"
+                       onkeydown="preventSubmit(event)">
+                <!-- 两行文本和按钮 -->
+                <div class="info_container">
+                    <p id="user-username" style="margin: 0;"></p>
+                    <p id="user-progress" style="margin: 0;"></p>
+                    <button id="skip_btn" type="submit" class="push_button">跳过</button>
+                    <button type="submit" class="push_button" id="Submit_Button">提交</button>
+
+                </div>
+                <input type="hidden" name="user_email" value="{{ request.session.user_id }}">
+                <input type="hidden" name="direction" value="en2cn">
+                <input type="hidden" name="source_id" value="{{ recipe.source_id }}">
+                <input type="hidden" name="submission_time" id="submission_time_field" value=0>
+                <input type="hidden" name="adaptation_time" id="adaptation_time_field" value=0>
+                <p>* 我们希望您能标注至少15道菜。如果参与人数较多，您需要标注的食谱数量会随之降低。</p>
+            </form>
+        </div>
+
+    </div>
+
+    </body>
+</html>
+
+<script>
+    // 使用JavaScript获取user_id的值
+    var user_id = "{{ request.session.user_id }}"; // 假设服务器端将user_id作为字符串传递给模板
+
+    // 将user_id的值插入到文本中
+    var userUsername = document.getElementById("user-username");
+    var displayedUsername = user_id.length > 20 ? user_id.substring(0, 20) + "..." : user_id;
+    userUsername.textContent = "User: " + displayedUsername
+
+    // 使用 AJAX 或 fetch 方法获取 User 数据记录数量
+    fetch('/get_user_progress/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"direction": 'en2cn', "username": user_id})
+    })// 假设 '/api/user/count' 是获取用户数量的接口路径
+        .then(response => response.json())
+        .then(data => {
+            var userProgress = document.getElementById("user-progress");
+            userProgress.textContent = "Progress: " + data.record_count + "/ " + data.duty
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
+</script>
+
+<script>
+    document.querySelector('.push_button').addEventListener('click', function () {
+        location.reload();
+    });
+</script>
+
+{#<script>#}
+{#    var adaptedStepsTextarea = document.getElementById("adapted-ingredients");#}
+{#    var refSteps = {{ recipe.source_ingredients_translated|safe }};#}
+{##}
+{#    if (Array.isArray(refSteps)) {#}
+{#        refSteps.forEach(function (ingredient, index) {#}
+{#            var listItem = (index + 1) + ". " + ingredient + "\n";#}
+{#            adaptedStepsTextarea.placeholder += listItem#}
+{#        });#}
+{#    }#}
+{#</script>#}
+{##}
+{#<script>#}
+{#    var adaptedStepsTextarea = document.getElementById("adapted-steps");#}
+{#    var refSteps = {{ recipe.source_steps_translated|safe }};#}
+{##}
+{#    if (Array.isArray(refSteps)) {#}
+{#        refSteps.forEach(function (step, index) {#}
+{#            var listItem = (index + 1) + ". " + step + "\n";#}
+{#            adaptedStepsTextarea.placeholder += listItem;#}
+{#        });#}
+{#    }#}
+{#</script>#}
+{##}
+{#<script>#}
+{#    document.addEventListener('keydown', function (event) {#}
+{#        if (event.key === 'Enter') {#}
+{#            event.preventDefault();#}
+{#        }#}
+{#    });#}
+{#</script>#}
+
+<script>
+    var startTime = new Date(); // 记录页面打开的时间
+
+    // 当提交按钮点击时计算时间差并设置隐藏字段的值
+    document.getElementById('Submit_Button').addEventListener('click', function () {
+        var currentTime = new Date();
+        var submissionTime = new Date(); // 当前时间作为提交时间
+        var evaluationTime = Math.floor((currentTime - startTime) / 1000); // 将时间差转换为整数秒数
+        // 设置隐藏字段的值
+        document.getElementById('submission_time_field').value = submissionTime.toISOString();
+        document.getElementById('adaptation_time_field').value = evaluationTime;
+    });
+</script>

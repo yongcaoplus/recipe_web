@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Recipe Collection</title>
+    {% load static %}
+{#  <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">#}
+</head>
+<body>
+<style>
+    	.logo img {
+		height: 100%;
+		max-height: 130px; /* 根据需要调整图片的最大高度 */
+            padding-right: 50px;
+	}
+
+
+.recipe-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 将表单分为两列，宽度相等 */
+  grid-gap: 20px; /* 左右列之间的间距 */
+}
+
+.left-column {
+  display: grid;
+  grid-template-rows: auto 1fr; /* 第一行自适应内容，第二行填充剩余空间 */
+}
+
+.right-column {
+  display: grid;
+  grid-template-rows: min-content; /* 自适应内容的高度 */
+}
+
+.recipe-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+    grid-auto-rows: minmax(0, 1fr);
+  grid-gap: 20px;
+  padding-left: 30px;
+  align-items: stretch; /* 让列高度相等 */
+  align-content: stretch; /* 让列高度相等 */
+}
+
+.recipe:nth-child(odd):only-child {
+  grid-column: 1 / span 2;
+}
+
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .adapt-container {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+        .adapt-img-container {
+      {#background-color: #fff;#}
+      {#border-radius: 5px;#}
+      {#padding: 20px;#}
+      {#box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);#}
+            padding: 20px;
+            display: flex;
+  justify-content: center;
+  align-items: center;
+    }
+
+    .adapt-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .adapt-container button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 3px;
+    }
+
+    .adapt-container button:hover {
+      opacity: 0.8;
+    }
+  </style>
+
+  <main class="recipe-container">
+    <section class="adapt-container">
+      <h2>Cabbage And Beef Soup</h2>
+      <h3>Ingredients:</h3>
+      <ul>
+        <li>2 tablespoons olive oil</li>
+        <li>1 large onion, chopped</li>
+        <li>2 garlic cloves, minced</li>
+        <li>1 teaspoon minced fresh gingerroot</li>
+        <li>1/2 teaspoon ground cumin</li>
+        <li>1/4 teaspoon crushed red pepper flakes</li>
+        <li>1 (14 1/2 ounce) can diced tomatoes, undrained</li>
+      </ul>
+      <h3>Steps:</h3>
+      <ol>
+        <li>Heat oil in a large saucepan over medium heat.</li>
+        <li>Add onion and garlic; cook and stir 5 minutes or until tender.</li>
+        <li>Stir in ginger, cumin, and crushed red pepper.</li>
+      </ol>
+    </section>
+    <section class="adapt-container">
+      <h2>卷心菜牛肉汤</h2>
+      <h3>配料：</h3>
+      <ul>
+        <li>2 汤匙橄榄油</li>
+        <li>1 个大洋葱，切碎</li>
+        <li>2 瓣大蒜，切碎</li>
+        <li>1 茶匙切碎的新鲜姜根</li>
+        <li>1/2 茶匙孜然粉</li>
+        <li>1/4 茶匙压碎的红辣椒片</li>
+        <li>1（14 1/2 盎司）罐装未沥干的西红柿丁</li>
+      </ul>
+      <h3>步骤：</h3>
+      <ol>
+        <li>在大平底锅中用中火加热油。</li>
+        <li>加入洋葱和大蒜；煮熟并搅拌 5 分钟或直到变软。</li>
+        <li>加入生姜、孜然和碎红辣椒。</li>
+        </ol>
+    </section>
+    <section class="adapt-img-container">
+        <div class="logo">
+                        <img src="{% static 'diet.png' %}" alt="Logo">
+                    </div>
+        <h2> Please write your recipes 👉👉👉 </h2>
+
+    </section>
+    <section class="adapt-container">
+      <h2>Write Your Aadapted Recipe</h2>
+      <form herf="adapt">
+            <div class="recipe-form">
+              <div class="left-column">
+                <label for="recipe-title">Title:</label>
+                <input type="text" id="recipe-title" name="recipe-title" required>
+                <label for="recipe-ingredients">Ingredients:</label>
+                <textarea id="recipe-ingredients" name="recipe-ingredients" required></textarea>
+              </div>
+              <div class="right-column">
+                <label for="recipe-steps">Steps:</label>
+                <textarea id="recipe-steps" name="recipe-steps" required></textarea>
+              </div>
+            </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+</main>
+</body>
+</html>
+

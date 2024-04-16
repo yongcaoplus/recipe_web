@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Evaluation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+<body class="is-preload">
+<div id="page-wrapper">
+<body>
+
+<header id="header">
+    <h1 class="logo-text"><a href="/">Recipe Cultural Adaptation Project</a></h1>
+    <nav id="nav">
+        <ul>
+            <li><a href="/" )>Home</a></li>
+            {% if request.session.is_login %}
+                <li><a href="/logout/" class="button">Log out</a></li>
+            {% else %}
+                <li><a href="/loginin/" class="button">Sign in</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+
+<style>
+
+textarea {
+    flex: 1;
+  align-self: flex-end;
+}
+
+input[type="text"] {
+  align-self: flex-start;
+}
+
+
+textarea#recipe-ingredients {
+  height: 300px; /* 设置 ingredients 的高度为 200px */
+}
+
+textarea#recipe-steps {
+  height: 300px; /* 设置 steps 的高度为 400px */
+}
+
+.content-wrapper {
+  text-align: center;
+}
+.recipe-container {
+  display: flex;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  align-items: stretch; /* 让列高度相等 */
+  align-content: stretch; /* 让列高度相等 */
+}
+
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .adapt-container {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .adapt-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+
+    .adapt-container button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      {#width: 100%;#}
+      font-size: 16px;
+      border-radius: 3px;
+        width: auto
+
+    }
+            .content-wrapper {
+            margin-top: 1000px; /* Increase the margin-top to create space for the heading */
+            text-align: center;
+        }
+                        .qs-content-wrapper {
+            margin-top: 30px; /* Increase the margin-top to create space for the heading */
+            text-align: center;
+        }
+
+    .adapt-container button:hover {
+      opacity: 0.8;
+    }
+
+    .submit_button {
+              background-color: #4caf50;
+      color: #fff;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 3px;
+        width: auto
+    }
+    .grammar-label {
+      color: blue;
+    }
+
+  </style>
+
+
+<div class="content-wrapper">
+    <div class="content-wrapper">
+    <h2>Recipe Evaluation (Chinese to English)</h2>
+    </div>
+    <h4><u>Please read the Golden Chinese recipe (left) and the model-generated English recipe (right), <br> and rate the subsequent questions.</u></h4>
+  </div>
+  <main class="recipe-container">
+<section class="adapt-container">
+      <h3>Cabbage And Beef Soup</h3>
+      <h4>Ingredients:</h4>
+      <ul>
+        <li>2 tablespoons olive oil</li>
+        <li>1 large onion, chopped</li>
+        <li>2 garlic cloves, minced</li>
+        <li>1 teaspoon minced fresh gingerroot</li>
+        <li>1/2 teaspoon ground cumin</li>
+        <li>1/4 teaspoon crushed red pepper flakes</li>
+        <li>1 (14 1/2 ounce) can diced tomatoes, undrained</li>
+      </ul>
+      <h3>Steps:</h3>
+      <ol>
+        <li>Heat oil in a large saucepan over medium heat.</li>
+        <li>Add onion and garlic; cook and stir 5 minutes or until tender.</li>
+        <li>Stir in ginger, cumin, and crushed red pepper.</li>
+      </ol>
+    </section>
+    <section class="adapt-container">
+      <h2>卷心菜牛肉汤</h2>
+      <h3>配料：</h3>
+      <ul>
+        <li>2 汤匙橄榄油</li>
+        <li>1 个大洋葱，切碎</li>
+        <li>2 瓣大蒜，切碎</li>
+        <li>1 茶匙切碎的新鲜姜根</li>
+        <li>1/2 茶匙孜然粉</li>
+        <li>1/4 茶匙压碎的红辣椒片</li>
+        <li>1（14 1/2 盎司）罐装未沥干的西红柿丁</li>
+      </ul>
+      <h3>步骤：</h3>
+      <ol>
+        <li>在大平底锅中用中火加热油。</li>
+        <li>加入洋葱和大蒜；煮熟并搅拌 5 分钟或直到变软。</li>
+        <li>加入生姜、孜然和碎红辣椒。</li>
+        </ol>
+    </section>
+</main>
+</body>
+
+<div class="qs-content-wrapper">
+  <h2>Questionnaire</h2>
+  <form id="questionnaire-form">
+      <h4 for="q1"><span class="grammar-label">Grammar --</span> Question 1: How would you rate the grammatical accuracy of the model-generated recipe<br>
+          (The right one)? Please rate on a scale of 1 to 7, where 1 indicates very poor and 7 indicates <br>
+          grammatically accurate and fluent.</h4>
+    <div class="rating-container">
+      <input type="radio" id="q1-rating1" name="question1" value="1">
+      <label for="q1-rating1">1</label>
+      <input type="radio" id="q1-rating2" name="question1" value="2">
+      <label for="q1-rating2">2</label>
+      <input type="radio" id="q1-rating3" name="question1" value="3">
+      <label for="q1-rating3">3</label>
+      <input type="radio" id="q1-rating4" name="question1" value="4">
+      <label for="q1-rating4">4</label>
+      <input type="radio" id="q1-rating5" name="question1" value="5">
+      <label for="q1-rating5">5</label>
+      <input type="radio" id="q1-rating6" name="question1" value="6">
+      <label for="q1-rating6">6</label>
+      <input type="radio" id="q1-rating7" name="question1" value="7">
+      <label for="q1-rating7">7</label>
+    </div>
+    <br>
+      <h4 for="q2"><span class="grammar-label">Correctness --</span> Question 2: On a scale of 1 to 7, please rate the coherence and consistency of the <br>
+        the model-generated recipe (The right one) when it is presented as an executable recipe, including <br>
+        a coherent title, ingredients, and cooking steps. (1 = very poor consistency, 7 = excellent consistency) </h4>
+    <div class="rating-container">
+      <input type="radio" id="q2-rating1" name="question2" value="1">
+      <label for="q2-rating1">1</label>
+      <input type="radio" id="q2-rating2" name="question2" value="2">
+      <label for="q2-rating2">2</label>
+      <input type="radio" id="q2-rating3" name="question2" value="3">
+      <label for="q2-rating3">3</label>
+      <input type="radio" id="q2-rating4" name="question2" value="4">
+      <label for="q2-rating4">4</label>
+      <input type="radio" id="q2-rating5" name="question2" value="5">
+      <label for="q2-rating5">5</label>
+      <input type="radio" id="q2-rating6" name="question2" value="6">
+      <label for="q2-rating6">6</label>
+      <input type="radio" id="q2-rating7" name="question2" value="7">
+      <label for="q2-rating7">7</label>
+    </div>
+      <br>
+        <br>
+  <h4 for="q3"><span class="grammar-label">Preservation --</span> Question 3: On a scale of 1 to 7, please rate the extent to which the generated recipe <br>
+      (The right one) accurately describes a dish similar to the input English recipe. (1 = does not describe <br>
+      a similar dish at all, 7 = accurately describes a similar dish).</h4>
+  <div class="rating-container">
+    <input type="radio" id="q3-rating1" name="question3" value="1">
+    <label for="q3-rating1">1</label>
+    <input type="radio" id="q3-rating2" name="question3" value="2">
+    <label for="q3-rating2">2</label>
+    <input type="radio" id="q3-rating3" name="question3" value="3">
+    <label for="q3-rating3">3</label>
+    <input type="radio" id="q3-rating4" name="question3" value="4">
+    <label for="q3-rating4">4</label>
+    <input type="radio" id="q3-rating5" name="question3" value="5">
+    <label for="q3-rating5">5</label>
+    <input type="radio" id="q3-rating6" name="question3" value="6">
+    <label for="q3-rating6">6</label>
+    <input type="radio" id="q3-rating7" name="question3" value="7">
+    <label for="q3-rating7">7</label>
+  </div>
+  <br>
+  <h4 for="q4"><span class="grammar-label">Cultural appropriateness --</span> Question 4: On a scale of 1 to 7, please rate the extent to which the generated<br>
+      recipe (The right one) fits within your cooking culture, is consistent with your cooking knowledge, and meets <br>
+      your expectations for a recipe's style. (1 = does not fit at all, 7 = fits perfectly)</h4>
+  <div class="rating-container">
+    <input type="radio" id="q4-rating1" name="question4" value="1">
+    <label for="q4-rating1">1</label>
+    <input type="radio" id="q4-rating2" name="question4" value="2">
+    <label for="q4-rating2">2</label>
+    <input type="radio" id="q4-rating3" name="question4" value="3">
+    <label for="q4-rating3">3</label>
+    <input type="radio" id="q4-rating4" name="question4" value="4">
+    <label for="q4-rating4">4</label>
+    <input type="radio" id="q4-rating5" name="question4" value="5">
+    <label for="q4-rating5">5</label>
+    <input type="radio" id="q4-rating6" name="question4" value="6">
+    <label for="q4-rating6">6</label>
+    <input type="radio" id="q4-rating7" name="question4" value="7">
+    <label for="q4-rating7">7</label>
+  </div>
+    <!-- Add more questions as needed -->
+      <textarea id="comments" name="comments" required placeholder="If any question, please leave your comments here."></textarea>
+    <button type="submit" class="submit_button">Submit</button>
+  </form>
+</div>
+
+
+<script>
+  // 使用JavaScript获取user_id的值
+  var user_id = "{{ request.session.user_id }}"; // 假设服务器端将user_id作为字符串传递给模板
+
+  // 将user_id的值插入到文本中
+  var userUsername = document.getElementById("user-username");
+  userUsername.textContent = "Current User: " + user_id
+
+// 使用 AJAX 或 fetch 方法获取 User 数据记录数量
+  fetch('/get_user_count/') // 假设 '/api/user/count' 是获取用户数量的接口路径
+    .then(response => response.json())
+    .then(data => {
+      var userProgress = document.getElementById("user-progress");
+      userProgress.textContent = "Progress: " + data.user_count + "/15";
+    })
+    .catch(error => {
+      console.log('Error:', error);
+    });
+</script>
+

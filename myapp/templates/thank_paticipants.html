@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Copy Code to Prolific</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 200px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .code {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .copy-button {
+            background-color: #4caf50;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .copy-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('code');
+            const code = codeElement.innerText;
+
+            // Create a temporary input element
+            const tempInput = document.createElement('input');
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+
+            // Copy the code from the input element
+            tempInput.select();
+            document.execCommand('copy');
+
+            // Remove the temporary input element
+            document.body.removeChild(tempInput);
+
+            // Provide visual feedback to the user
+            alert('Code copied successfully!');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Thank you for your participation. Please copy this code to Prolific.</h1>
+        <p> <span style="color:red">* Please do not close this window until you have returned the code to the Prolific platform.</span><br>
+        It is important to note that any code not successfully returned to Prolific will not be eligible for payment.</p>
+        <div class="code" id="code">CHFNEEND</div>
+        <button class="copy-button" onclick="copyCode()">Copy</button>
+    </div>
+</body>
+</html>

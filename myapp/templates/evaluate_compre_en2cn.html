@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comprehension Check</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+<body class="is-preload">
+<div id="page-wrapper">
+    <body>
+    <header id="header">
+        <h1 class="logo-text"><a href="/">Recipe Cultural Adaptation Project</a></h1>
+        <nav id="nav">
+            {#            <ul>#}
+            {#                <li><a href="/" )>Home</a></li>#}
+            {#                {% if request.session.is_login %}#}
+            {#                    <li><a href="/logout/" class="button">Log out</a></li>#}
+            {#                {% else %}#}
+            {#                    <li><a href="/loginin/" class="button">Sign in</a></li>#}
+            {#                {% endif %}#}
+            {#            </ul>#}
+        </nav>
+    </header>
+    <style>
+
+        /* 居中对齐文本 */
+        .center {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .submit_button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 3px;
+            width: auto
+        }
+
+        /* 左右模块布局 */
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 模块样式 */
+        .module {
+            flex: 1;
+            border: 1px solid #ccc;
+            margin: 0 auto;
+            width: 800px;
+        }
+
+        .info_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 10vh;
+        }
+
+        .push_button {
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 3px;
+            display: inline-block;
+            width: auto
+        }
+
+        .grammar-label {
+            color: blue;
+        }
+
+        .push_button:hover {
+            opacity: 0.8;
+        }
+
+        .qs-content-wrapper {
+            margin-top: 30px; /* Increase the margin-top to create space for the heading */
+            text-align: center;
+        }
+    </style>
+
+    <div class="center">
+        <h2>任务理解测试</h2>
+        <h4><u>请阅读下面这道食谱并回答三个问题，您将有 <span
+                style="color:red">2次机会</span>提交您的答案，答案正确后将开始正式评估。</u></h4>
+        {% if request.GET.left_time %}
+            <h4 style="color:red">这是你第二次任务理解测试.</h4>
+            <script>
+                var confirmation = confirm("非常抱歉你没有通过任务理解测试。继续第二次尝试吗?");
+                if (confirmation) {
+                    // 用户选择继续当前页面
+                } else {
+                    // 用户选择跳转到结束页面
+                    window.location.href = "/stop_evaluation/";  // 跳转到结束页面的URL
+                }
+            </script>
+        {% endif %}
+        <div class="module">
+            <h4>标题：营养蔬菜汤</h4>
+            <h4>配料：番茄, 1根胡萝卜, 2 块瘦肉汤骨头(最好是牛肉腿)</h4>
+            <h4>步骤：(1) 切胡萝卜、切片菜、切片、切片绿豆、切片乳液、切片粉条、切片卷饼、切片卷心菜和剥皮以及立方土豆。
+                (2) 将除大汤壶中的巴利和蘑菇以外的所有成分组合在一起; 煮锅炉子, 覆盖2小时。</li>
+                (3) 将肉从骨头中除去; 切为肉, 切成碎块并恢复汤; 过夜喂; 任何脂肪; 在地上供应任何脂肪; 磨前供应;
+                再加。</h4>
+        </div>
+        <form id="questionnaire-form" method="get" action="{% url 'submit_comprehension' %}">
+            <h4 for="q1">问题1：该食谱的语法准确性、文本流畅度。<br>(1表示非常差，7表示语法准确且流畅)。
+                <br> 提示：这道菜谱的描述很糟糕，语法很差，非常不流畅。
+            </h4>
+            <div class="rating-container">
+                <input type="radio" id="q1-rating1" name="question1" value="1" required>
+                <label for="q1-rating1">1</label>
+                <input type="radio" id="q1-rating2" name="question1" value="2" required>
+                <label for="q1-rating2">2</label>
+                <input type="radio" id="q1-rating3" name="question1" value="3" required>
+                <label for="q1-rating3">3</label>
+                <input type="radio" id="q1-rating4" name="question1" value="4" required>
+                <label for="q1-rating4">4</label>
+                <input type="radio" id="q1-rating5" name="question1" value="5" required>
+                <label for="q1-rating5">5</label>
+                <input type="radio" id="q1-rating6" name="question1" value="6" required>
+                <label for="q1-rating6">6</label>
+                <input type="radio" id="q1-rating7" name="question1" value="7" required>
+                <label for="q1-rating7">7</label>
+            </div>
+            <br>
+            <h4 for="q2">问题2：该食谱是否展现出良好的逻辑连贯性和一致性？ 您可以考虑该食谱的标题是否正确，<br>根据该食谱的配料、步骤是否能做出该菜肴。
+                <br>(1分代表一致性差，根据该食谱无法做出该菜肴;7分代表一致性非常好，完全正确)。
+                <br> 提示：这道菜谱的描述存在较多错误，逻辑连贯性和一致性很差，无法根据食谱做出该菜肴。
+            </h4>
+            <div class="rating-container">
+                <input type="radio" id="q2-rating1" name="question2" value="1" required>
+                <label for="q2-rating1">1</label>
+                <input type="radio" id="q2-rating2" name="question2" value="2" required>
+                <label for="q2-rating2">2</label>
+                <input type="radio" id="q2-rating3" name="question2" value="3" required>
+                <label for="q2-rating3">3</label>
+                <input type="radio" id="q2-rating4" name="question2" value="4" required>
+                <label for="q2-rating4">4</label>
+                <input type="radio" id="q2-rating5" name="question2" value="5" required>
+                <label for="q2-rating5">5</label>
+                <input type="radio" id="q2-rating6" name="question2" value="6" required>
+                <label for="q2-rating6">6</label>
+                <input type="radio" id="q2-rating7" name="question2" value="7" required>
+                <label for="q2-rating7">7</label>
+            </div>
+            <br>
+            <h4 for="q4">问题3：该食谱是否符合中国的烹饪文化、
+                是否和中国的烹饪知识、烹饪习惯保持一致。<br>（1表示完全不符合，7表示完美符合）。
+                 <br> 提示：这道食谱完全不符合中国的烹饪知识和烹饪习惯。
+            </h4>
+            <div class="rating-container">
+                <input type="radio" id="q4-rating1" name="question4" value="1" required>
+                <label for="q4-rating1">1</label>
+                <input type="radio" id="q4-rating2" name="question4" value="2" required>
+                <label for="q4-rating2">2</label>
+                <input type="radio" id="q4-rating3" name="question4" value="3" required>
+                <label for="q4-rating3">3</label>
+                <input type="radio" id="q4-rating4" name="question4" value="4" required>
+                <label for="q4-rating4">4</label>
+                <input type="radio" id="q4-rating5" name="question4" value="5" required>
+                <label for="q4-rating5">5</label>
+                <input type="radio" id="q4-rating6" name="question4" value="6" required>
+                <label for="q4-rating6">6</label>
+                <input type="radio" id="q4-rating7" name="question4" value="7" required>
+                <label for="q4-rating7">7</label>
+                <br>
+                <button type="submit" id="Submit_Button" class="submit_button">完成</button>
+                <input type="hidden" name="user_email" value="{{ request.GET.user_email }}">
+                <input type="hidden" name="direction" value="en2cn">
+            </div>
+            <!-- Add more questions as needed -->
+        </form>
+    </div>
+
+    </body>
+</html>
+

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Generation Evaluation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+<!-- <body class="is-preload"> -->
+<!-- <div id="page-wrapper">
+    <body> -->
+    <!-- <header id="header">
+        <h1 class="logo-text">Cultural Adaptation Project</h1>
+        <nav id="nav">
+        </nav>
+    </header> -->
+    <style>
+
+        /* 居中对齐文本 */
+        .center {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .submit_button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 3px;
+            width: auto
+        }
+
+        /* 左右模块布局 */
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 模块样式 */
+        .module {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .info_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 10vh;
+        }
+
+        .push_button {
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 3px;
+            display: inline-block;
+            width: auto
+        }
+
+        .grammar-label {
+            color: blue;
+        }
+        .warning-label {
+            color: red;
+        }
+
+        .push_button:hover {
+            opacity: 0.8;
+        }
+
+        .qs-content-wrapper {
+            margin-top: 30px; /* Increase the margin-top to create space for the heading */
+            text-align: center;
+        }
+
+        .module img {
+    height: 200px; /* 设置图片的高度为200像素 */
+    width: auto;   /* 宽度自适应 */
+    display: block; /* 使图像居中显示 */
+    margin: 0 auto; /* 设置左右外边距为auto，实现水平居中 */
+}
+    </style>
+
+<div class="center">
+    <h2> உரை உருவாக்க தர மதிப்பீடு (கவனம் சோதனை)
+    </h2>
+    <h4><u>கீழே உள்ள இரண்டு படங்களையும் இரண்டு வாக்கிய விளக்கங்களையும் படித்துவிட்டு கீழே உள்ள 5 கேள்விகளை மதிப்பிடவும்.
+        <br>
+    <span class="warning-label">தயவுசெய்து கவனிக்கவும்: நீங்கள் செறிவுத் தேர்வில் தேர்ச்சி பெற்றால் மட்டுமே முறையான மதிப்பீட்டுப் பணியைத் தொடர முடியும். <br>உங்கள் தேர்வை முடிக்க கீழே உள்ள டுடோரியலைப் பின்பற்றவும்.
+    </span></u></h4>
+</div>
+<!-- 左右模块布局 -->
+<div class="container">
+    <!-- 左边模块 -->
+    <div class="module">
+        <h3>இடது படம்
+        </h3>
+        <img src="{% static 'marvl_attention_check/comp_fig0.jpg' %}" alt="Image 1">
+    </div>
+    <!-- 右边模块 -->
+    <div class="module">
+        <h3>வலது படம்
+        </h3>
+        <img src="{% static 'marvl_attention_check/comp_fig1.jpg' %}" alt="Image 2">
+    </div>
+</div>
+<div class="container"><div class="module"><h4>வாக்கியம் a: இடதுபுறத்தில் உள்ள படத்தில், ஒரு பெண் தனியாக நடனமாடுகிறார், வலதுபுறத்தில் உள்ள படத்தில், பலர் ஒன்றாக நடனமாடுகிறார்கள்.
+</h4>
+<h4>வாக்கியம் b: இடதுபுறத்தில் உள்ள பெண் அழகாக தனியாக பாலே நடனமாடுகிறார், வலதுபுறத்தில் கலைஞர் ஃபிளமெங்கோ நடனத்தைக் காட்டுகிறார்.
+</h4></div>
+</div>
+
+<div class="qs-content-wrapper">
+    <h2>கேள்வி
+    </h2>
+    <!-- <h4><u>* 除非特殊说明, 以下问题的评估对象为文化适应后的食谱 (<span style="color:red">右</span>)，评分从<span style="color:red">1-7</span>分。</u></h4> -->
+    <form id="questionnaire-form" method="get" action="{% url 'submit_compre_ta_20' %}">
+        <h4 for="q1"><span class="grammar-label">சரி--</span> கேள்வி 1: வாக்கியம் a இரண்டு படங்களின் உள்ளடக்கத்தை சரியாக விவரிக்கும்.<br>
+            (1 என்றால் முற்றிலும் தவறு, 7 என்றால் முற்றிலும் சரி).
+            </h4>
+        <h5><u>உதவிக்குறிப்பு: இங்கே a வாக்கியத்தின் உள்ளடக்கம் அடிப்படையில் சரியானது, எனவே நீங்கள் 4-7 புள்ளிகளைத் தேர்வு செய்யலாம்.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q1-rating1" name="question1" value="1" required>
+            <label for="q1-rating1">1</label>
+            <input type="radio" id="q1-rating2" name="question1" value="2" required>
+            <label for="q1-rating2">2</label>
+            <input type="radio" id="q1-rating3" name="question1" value="3" required>
+            <label for="q1-rating3">3</label>
+            <input type="radio" id="q1-rating4" name="question1" value="4" required>
+            <label for="q1-rating4">4</label>
+            <input type="radio" id="q1-rating5" name="question1" value="5" required>
+            <label for="q1-rating5">5</label>
+            <input type="radio" id="q1-rating6" name="question1" value="6" required>
+            <label for="q1-rating6">6</label>
+            <input type="radio" id="q1-rating7" name="question1" value="7" required>
+            <label for="q1-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q2"><span class="grammar-label">கலாச்சாரத்தைக் கொண்டுள்ளது--</span> கேள்வி 2: வாக்கியத்தின் விளக்க உள்ளடக்கம் கலாச்சார பண்புகளுடன் தொடர்புடையது.
+            <br>(1 மதிப்பெண் என்றால் அதற்கும் கலாச்சாரத்துக்கும் எந்த சம்பந்தமும் இல்லை; <br>7 மதிப்பெண் என்றால் அது கலாச்சாரத்துடன் வலுவாக தொடர்புடையது என்று அர்த்தம்).
+            </h4>
+        <h5><u>உதவிக்குறிப்பு: இங்கே a வாக்கியத்திற்கும் கலாச்சார விளக்கத்திற்கும் எந்த தொடர்பும் இல்லை, எனவே நீங்கள் 1-3 புள்ளிகளைத் தேர்வு செய்யலாம்.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q2-rating1" name="question2" value="1" required>
+            <label for="q2-rating1">1</label>
+            <input type="radio" id="q2-rating2" name="question2" value="2" required>
+            <label for="q2-rating2">2</label>
+            <input type="radio" id="q2-rating3" name="question2" value="3" required>
+            <label for="q2-rating3">3</label>
+            <input type="radio" id="q2-rating4" name="question2" value="4" required>
+            <label for="q2-rating4">4</label>
+            <input type="radio" id="q2-rating5" name="question2" value="5" required>
+            <label for="q2-rating5">5</label>
+            <input type="radio" id="q2-rating6" name="question2" value="6" required>
+            <label for="q2-rating6">6</label>
+            <input type="radio" id="q2-rating7" name="question2" value="7" required>
+            <label for="q2-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q3"><span class="grammar-label">சரியான தன்மை--</span> கேள்வி 3: வாக்கியம் b இரண்டு படங்களின் உள்ளடக்கத்தை சரியாக விவரிக்க முடியும்.
+            <br>(1 என்றால் முற்றிலும் தவறு, 7 என்றால் முற்றிலும் சரி).
+            </h4>
+        <h5><u>உதவிக்குறிப்பு: இங்கே b வாக்கியத்தின் உள்ளடக்கம் அடிப்படையில் சரியானது, எனவே நீங்கள் 4-7 புள்ளிகளைத் தேர்வு செய்யலாம்.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q3-rating1" name="question3" value="1" required>
+            <label for="q3-rating1">1</label>
+            <input type="radio" id="q3-rating2" name="question3" value="2" required>
+            <label for="q3-rating2">2</label>
+            <input type="radio" id="q3-rating3" name="question3" value="3" required>
+            <label for="q3-rating3">3</label>
+            <input type="radio" id="q3-rating4" name="question3" value="4" required>
+            <label for="q3-rating4">4</label>
+            <input type="radio" id="q3-rating5" name="question3" value="5" required>
+            <label for="q3-rating5">5</label>
+            <input type="radio" id="q3-rating6" name="question3" value="6" required>
+            <label for="q3-rating6">6</label>
+            <input type="radio" id="q3-rating7" name="question3" value="7" required>
+            <label for="q3-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q4"><span class="grammar-label">கலாச்சாரத்தைக் கொண்டுள்ளது--</span>  கேள்வி 4: வாக்கிய b இன் விளக்க உள்ளடக்கம் கலாச்சார பண்புகளுடன் தொடர்புடையது.
+            <br>(1 மதிப்பெண் என்றால் அதற்கும் கலாச்சாரத்துக்கும் எந்த சம்பந்தமும் இல்லை; <br>7 மதிப்பெண் என்றால் அது கலாச்சாரத்துடன் வலுவாக தொடர்புடையது என்று அர்த்தம்).
+        </h4>
+        <h5><u>உதவிக்குறிப்பு: இங்கே வாக்கியம் b கலாச்சார விளக்கத்துடன் ஒரு குறிப்பிட்ட தொடர்பைக் கொண்டுள்ளது, எனவே நீங்கள் 4-7 புள்ளிகளைத் தேர்வு செய்யலாம்.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q4-rating1" name="question4" value="1" required>
+            <label for="q4-rating1">1</label>
+            <input type="radio" id="q4-rating2" name="question4" value="2" required>
+            <label for="q4-rating2">2</label>
+            <input type="radio" id="q4-rating3" name="question4" value="3" required>
+            <label for="q4-rating3">3</label>
+            <input type="radio" id="q4-rating4" name="question4" value="4" required>
+            <label for="q4-rating4">4</label>
+            <input type="radio" id="q4-rating5" name="question4" value="5" required>
+            <label for="q4-rating5">5</label>
+            <input type="radio" id="q4-rating6" name="question4" value="6" required>
+            <label for="q4-rating6">6</label>
+            <input type="radio" id="q4-rating7" name="question4" value="7" required>
+            <label for="q4-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q5"><span class="grammar-label">உரை ஒப்பீடு--</span> கேள்வி 5: சரியான தன்மை மற்றும் கலாச்சாரத் தழுவல் இரண்டையும் கருத்தில் கொண்டு, <br>இரண்டு படங்களின் விளக்கமாக எந்த வாக்கியம் a அல்லது வாக்கியம் b மிகவும் பொருத்தமானது?
+        </h4>
+        <h5><u>உதவிக்குறிப்பு: வாக்கியம் b என்பது சரியான விளக்கமாகும், <br>மேலும் a உடன் ஒப்பிடும்போது b வாக்கியம் கலாச்சாரத்திற்கு மிகவும் பொருத்தமானது, எனவே வாக்கியம் b என்பதைத் தேர்ந்தெடுக்கவும்.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q5-rating1" name="question5" value="1" required>
+            <label for="q5-rating1">1.  வாக்கியம் a
+            </label>
+            <input type="radio" id="q5-rating2" name="question5" value="2" required>
+            <label for="q5-rating2">2. வாக்கியம் ஆ
+            </label> <br>
+            <input type="radio" id="q5-rating3" name="question5" value="3" required>
+            <label for="q5-rating3">3. டை (ஒரே தரம், இரண்டும் நல்லது)
+            </label>
+            <input type="radio" id="q5-rating4" name="question5" value="4" required>
+            <label for="q5-rating4">4. டை (ஒரே தரம், இரண்டும் மோசமானது)
+            </label>
+            <br>
+                <button type="submit" id="Submit_Button" class="submit_button">சமர்ப்பிக்க</button>
+                <p id="user-progress" style="margin: 0;"></p>
+                <p id="user-username" style="margin: 0;"></p>
+                <input type="hidden" name="user_email" value="{{ request.GET.user_email }}">
+        </div>
+        <!-- Add more questions as needed -->
+    </form>
+</div>
+
+
+<script>
+    var startTime = new Date(); // 记录页面打开的时间
+    // 当提交按钮点击时计算时间差并设置隐藏字段的值
+    document.getElementById('Submit_Button').addEventListener('click', function () {
+        var currentTime = new Date();
+        var submissionTime = new Date(); // 当前时间作为提交时间
+        var evaluationTime = Math.floor((currentTime - startTime) / 1000); // 将时间差转换为整数秒数
+        // 设置隐藏字段的值
+        document.getElementById('submission_time_field').value = submissionTime.toISOString();
+        document.getElementById('evaluation_time_field').value = evaluationTime;
+    });
+</script>
+
+</body>
+</html>

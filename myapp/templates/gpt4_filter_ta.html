@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cultural Annotation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+<!-- <body class="is-preload"> -->
+<!-- <div id="page-wrapper">
+    <body> -->
+    <!-- <header id="header">
+        <h1 class="logo-text">Cultural Adaptation Project</h1>
+        <nav id="nav">
+        </nav>
+    </header> -->
+    <style>
+
+        /* 居中对齐文本 */
+        .center {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .submit_button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 3px;
+            width: auto
+        }
+
+        /* 左右模块布局 */
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 模块样式 */
+        .module {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .info_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 10vh;
+        }
+
+        .push_button {
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 3px;
+            display: inline-block;
+            width: auto
+        }
+
+        .grammar-label {
+            color: blue;
+        }
+
+        .push_button:hover {
+            opacity: 0.8;
+        }
+
+        .qs-content-wrapper {
+            margin-top: 30px; /* Increase the margin-top to create space for the heading */
+            text-align: center;
+        }
+
+        .module img {
+    height: 200px; /* 设置图片的高度为200像素 */
+    width: auto;   /* 宽度自适应 */
+    display: block; /* 使图像居中显示 */
+    margin: 0 auto; /* 设置左右外边距为auto，实现水平居中 */
+}
+    </style>
+
+<div class="center">
+    <h2>Cultural Relevance Evaluation
+    </h2>
+</div>
+    <h4 style="text-indent: 1.5cm;">Welcome to the Cultural Relevance Evaluation task! In this task, you will evaluate a set of images to determine if they are culturally relevant.</h4>
+    <h4 style="text-indent: 1.5cm;"><u>Task Description:</u></h4>
+    <h4 style="text-indent: 1.5cm;">You will be presented with a total of 100 images, organized in sets of 5 images each. Your job is to assess whether each image is culturally relevant or not.</h4>
+    <h4 style="text-indent: 1.5cm;"><u>Instructions:</u></h4>
+    <h4 style="text-indent: 1.5cm;">1. <b>Evaluation Criteria</b>: Determine if each image is culturally relevant or not based on your cultural background as a native speaker of Swahili/Turkish/Tamil/Indonesian. </h4>
+    <h4 style="text-indent: 1.5cm;"><u>Cultural relevance refers to whether the given image reflects or represents aspects of culture, tradition, history, or societal values.</u></h4>
+    <h4 style="text-indent: 1.5cm;">2. <b>Choosing Yes or No</b>: For each image, you will have to choose between two options:</h4>
+    <h4 style="text-indent: 1.5cm;">    - <b>Yes</b>: Choose "Yes" if you believe the image is culturally relevant.</h4>
+    <h4 style="text-indent: 1.5cm;">- <b>No</b>: Choose "No" if you believe the image is not culturally relevant.</h4>
+    <h4 style="text-indent: 1.5cm;">3. <b>Submitting Your Evaluation</b>: After evaluating all 5 images in a set, click the "Submit" button to proceed to the next set. </h4>
+    <h4 style="text-indent: 1.5cm;">Make sure to provide your assessment for each image before moving on.</h4>
+
+
+<div class="qs-content-wrapper">
+    <!-- <h4><u>* 除非特殊说明, 以下问题的评估对象为文化适应后的食谱 (<span style="color:red">右</span>)，评分从<span style="color:red">1-7</span>分。</u></h4> -->
+    <form id="questionnaire-form" method="get" action="{% url 'submit_filter' %}">
+<!-- 左右模块布局 -->
+<div class="container">
+    <!-- 左边模块 -->
+    <div class="module">
+        <h3>Image 1</h3>
+        <img src="{% static gpt4_case.0.img_path %}" alt="Image 1">
+        <input type="hidden" name="img_path_1" value="{{ gpt4_case.0.img_path }}">
+    </div>
+    <div class="rating-container">
+        <input type="radio" id="q1-rating1" name="question1" value="1" required>
+        <label for="q1-rating1">Yes</label>
+        <input type="radio" id="q1-rating2" name="question1" value="2" required>
+        <label for="q1-rating2">No</label>
+    </div>
+</div>
+<div class="container">
+    <!-- 左边模块 -->
+    <div class="module">
+        <h3>Image 2</h3>
+        <img src="{% static gpt4_case.1.img_path %}" alt="Image 1">
+        <input type="hidden" name="img_path_2" value="{{ gpt4_case.1.img_path }}">
+    </div>
+    <div class="rating-container">
+        <input type="radio" id="q2-rating1" name="question2" value="1" required>
+        <label for="q2-rating1">Yes</label>
+        <input type="radio" id="q2-rating2" name="question2" value="2" required>
+        <label for="q2-rating2">No</label>
+    </div>
+</div>
+<div class="container">
+    <!-- 左边模块 -->
+    <div class="module">
+        <h3>Image 3</h3>
+        <img src="{% static gpt4_case.2.img_path %}" alt="Image 1">
+        <input type="hidden" name="img_path_3" value="{{ gpt4_case.2.img_path }}">
+
+    </div>
+    <div class="rating-container">
+        <input type="radio" id="q3-rating1" name="question3" value="1" required>
+        <label for="q3-rating1">Yes</label>
+        <input type="radio" id="q3-rating2" name="question3" value="2" required>
+        <label for="q3-rating2">No</label>
+    </div>
+</div>
+<div class="container">
+    <!-- 左边模块 -->
+    <div class="module">
+        <h3>Image 4</h3>
+        <img src="{% static gpt4_case.3.img_path %}" alt="Image 1">
+        <input type="hidden" name="img_path_4" value="{{ gpt4_case.3.img_path }}">
+    </div>
+    <div class="rating-container">
+        <input type="radio" id="q4-rating1" name="question4" value="1" required>
+        <label for="q4-rating1">Yes</label>
+        <input type="radio" id="q4-rating2" name="question4" value="2" required>
+        <label for="q4-rating2">No</label>
+    </div>
+</div>
+<div class="container">
+    <!-- 左边模块 -->
+    <div class="module">
+        <h3>Image 5</h3>
+        <img src="{% static gpt4_case.4.img_path %}" alt="Image 1">
+        <input type="hidden" name="img_path_5" value="{{ gpt4_case.4.img_path }}">
+    </div>
+    <div class="rating-container">
+        <input type="radio" id="q5-rating1" name="question5" value="1" required>
+        <label for="q5-rating1">Yes</label>
+        <input type="radio" id="q5-rating2" name="question5" value="2" required>
+        <label for="q5-rating2">No</label>
+    </div>
+</div>
+        <button type="submit" id="Submit_Button" class="submit_button">Submit</button>
+        <p id="user-progress" style="margin: 0;"></p>
+        <p id="user-username" style="margin: 0;"></p>
+        <input type="hidden" name="user_email" value="{{ request.GET.user_email }}">
+        <input type="hidden" name="language" value="{{ gpt4_case.0.language }}">
+        <input type="hidden" name="submission_time" id="submission_time_field">
+        <input type="hidden" name="evaluation_time" id="evaluation_time_field">
+    </div>
+        <!-- Add more questions as needed -->
+    </form>
+</div>
+
+
+<script>
+    var startTime = new Date(); // 记录页面打开的时间
+    // 当提交按钮点击时计算时间差并设置隐藏字段的值
+    document.getElementById('Submit_Button').addEventListener('click', function () {
+        var currentTime = new Date();
+        var submissionTime = new Date(); // 当前时间作为提交时间
+        var evaluationTime = Math.floor((currentTime - startTime) / 1000); // 将时间差转换为整数秒数
+        // 设置隐藏字段的值
+        document.getElementById('submission_time_field').value = submissionTime.toISOString();
+        document.getElementById('evaluation_time_field').value = evaluationTime;
+    });
+</script>
+
+
+<script>
+    var currentURL = window.location.href;
+    var params = new URLSearchParams(window.location.search);
+    // var generatedRecipe = "{{ recipe.generated_recipe}}";
+    // console.log(generatedRecipe)
+    // var encodedGeneratedRecipe = encodeURIComponent(generatedRecipe);
+    if (params.has('user_email')) {
+        var user_email = params.get('user_email');
+    }
+    var userUsername = document.getElementById("user-username");
+    userUsername.textContent = "User: " + user_email
+    fetch('get_user_gpt4_filter_num', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"language": 'ta', "username": user_email})
+    }) // 假设 '/api/user/count' 是获取用户数量的接口路径
+        .then(response => response.json())
+        .then(data => {
+            var userProgress = document.getElementById("user-progress");
+            userProgress.textContent = "Progress: " + data.record_count + "/100"
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
+</script>
+
+
+</body>
+</html>

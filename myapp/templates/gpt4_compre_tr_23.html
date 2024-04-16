@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Generation Evaluation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+<!-- <body class="is-preload"> -->
+<!-- <div id="page-wrapper">
+    <body> -->
+    <!-- <header id="header">
+        <h1 class="logo-text">Cultural Adaptation Project</h1>
+        <nav id="nav">
+        </nav>
+    </header> -->
+    <style>
+
+        /* 居中对齐文本 */
+        .center {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .submit_button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 3px;
+            width: auto
+        }
+
+        /* 左右模块布局 */
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 模块样式 */
+        .module {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .info_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 10vh;
+        }
+
+        .push_button {
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 3px;
+            display: inline-block;
+            width: auto
+        }
+
+        .grammar-label {
+            color: blue;
+        }
+        .warning-label {
+            color: red;
+        }
+
+        .push_button:hover {
+            opacity: 0.8;
+        }
+
+        .qs-content-wrapper {
+            margin-top: 30px; /* Increase the margin-top to create space for the heading */
+            text-align: center;
+        }
+
+        .module img {
+    height: 200px; /* 设置图片的高度为200像素 */
+    width: auto;   /* 宽度自适应 */
+    display: block; /* 使图像居中显示 */
+    margin: 0 auto; /* 设置左右外边距为auto，实现水平居中 */
+}
+    </style>
+
+<div class="center">
+    <h2>Metin oluşturma kalite değerlendirmesi (dikkat testi)
+    </h2>
+    <h4><u>Lütfen aşağıdaki iki resmi ve iki cümlelik açıklamayı okuyun ve aşağıdaki 5 soruyu derecelendirin.
+        <br>
+    <span class="warning-label">Lütfen unutmayın: Yalnızca konsantrasyon testini geçerseniz resmi değerlendirme görevine devam edebileceksiniz. <br>Seçiminizi tamamlamak için lütfen aşağıdaki eğitimi izleyin.
+    </span></u></h4>
+</div>
+<!-- 左右模块布局 -->
+<div class="container">
+    <!-- 左边模块 -->
+    <div class="module">
+        <h3>Sol resim
+        </h3>
+        <img src="{% static 'marvl_attention_check/comp_fig0.jpg' %}" alt="Image 1">
+    </div>
+    <!-- 右边模块 -->
+    <div class="module">
+        <h3>Sağ resim
+        </h3>
+        <img src="{% static 'marvl_attention_check/comp_fig1.jpg' %}" alt="Image 2">
+    </div>
+</div>
+<div class="container"><div class="module"><h4>Cümle a: Soldaki resimde bir kız tek başına dans ediyor, sağdaki resimde ise birkaç kişi birlikte dans ediyor.
+</h4>
+<h4>Cümle b: Soldaki kız tek başına zarif bir şekilde bale dansı yapıyor, sağdaki sanatçı ise flamenko dansını gösteriyor.
+</h4></div>
+</div>
+
+<div class="qs-content-wrapper">
+    <h2>Soru
+    </h2>
+    <!-- <h4><u>* 除非特殊说明, 以下问题的评估对象为文化适应后的食谱 (<span style="color:red">右</span>)，评分从<span style="color:red">1-7</span>分。</u></h4> -->
+    <form id="questionnaire-form" method="get" action="{% url 'submit_compre_tr_23' %}">
+        <h4 for="q1"><span class="grammar-label">Doğruluk--</span>Soru 1: a cümlesi iki resmin içeriğini doğru bir şekilde tanımlayabilir.<br>
+            (1 tamamen yanlış, 7 tamamen doğru anlamına gelir).
+            </h4>
+        <h5><u>İpucu: Buradaki a cümlesinin içeriği temelde doğrudur, dolayısıyla 4-7 puan seçebilirsiniz.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q1-rating1" name="question1" value="1" required>
+            <label for="q1-rating1">1</label>
+            <input type="radio" id="q1-rating2" name="question1" value="2" required>
+            <label for="q1-rating2">2</label>
+            <input type="radio" id="q1-rating3" name="question1" value="3" required>
+            <label for="q1-rating3">3</label>
+            <input type="radio" id="q1-rating4" name="question1" value="4" required>
+            <label for="q1-rating4">4</label>
+            <input type="radio" id="q1-rating5" name="question1" value="5" required>
+            <label for="q1-rating5">5</label>
+            <input type="radio" id="q1-rating6" name="question1" value="6" required>
+            <label for="q1-rating6">6</label>
+            <input type="radio" id="q1-rating7" name="question1" value="7" required>
+            <label for="q1-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q2"><span class="grammar-label">Kültür içerir--</span> Soru 2: a cümlesinin tanımlayıcı içeriği kültürel niteliklerle ilgilidir.
+            <br>(1 puan kültürle hiçbir ilgisi olmadığı anlamına gelir; 7 puan kültürle güçlü bir şekilde ilişkili olduğu anlamına gelir).
+            </h4>
+        <h5><u>İpucu: Buradaki a cümlesinin kültürel tanımla hiçbir ilgisi yoktur, dolayısıyla 1-3 puan seçebilirsiniz.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q2-rating1" name="question2" value="1" required>
+            <label for="q2-rating1">1</label>
+            <input type="radio" id="q2-rating2" name="question2" value="2" required>
+            <label for="q2-rating2">2</label>
+            <input type="radio" id="q2-rating3" name="question2" value="3" required>
+            <label for="q2-rating3">3</label>
+            <input type="radio" id="q2-rating4" name="question2" value="4" required>
+            <label for="q2-rating4">4</label>
+            <input type="radio" id="q2-rating5" name="question2" value="5" required>
+            <label for="q2-rating5">5</label>
+            <input type="radio" id="q2-rating6" name="question2" value="6" required>
+            <label for="q2-rating6">6</label>
+            <input type="radio" id="q2-rating7" name="question2" value="7" required>
+            <label for="q2-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q3"><span class="grammar-label">Doğruluk--</span> Soru 3: Cümle b, iki resmin içeriğini doğru bir şekilde tanımlayabiliyor.
+            <br>(1 tamamen yanlış, 7 tamamen doğru anlamına gelir).
+            </h4>
+        <h5><u>İpucu: Buradaki b cümlesinin içeriği temelde doğrudur, dolayısıyla 4-7 puan seçebilirsiniz.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q3-rating1" name="question3" value="1" required>
+            <label for="q3-rating1">1</label>
+            <input type="radio" id="q3-rating2" name="question3" value="2" required>
+            <label for="q3-rating2">2</label>
+            <input type="radio" id="q3-rating3" name="question3" value="3" required>
+            <label for="q3-rating3">3</label>
+            <input type="radio" id="q3-rating4" name="question3" value="4" required>
+            <label for="q3-rating4">4</label>
+            <input type="radio" id="q3-rating5" name="question3" value="5" required>
+            <label for="q3-rating5">5</label>
+            <input type="radio" id="q3-rating6" name="question3" value="6" required>
+            <label for="q3-rating6">6</label>
+            <input type="radio" id="q3-rating7" name="question3" value="7" required>
+            <label for="q3-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q4"><span class="grammar-label">Kültür içerir--</span> Soru 4: b cümlesinin tanımlayıcı içeriği kültürel niteliklerle ilgilidir.
+            <br>(1 puan kültürle hiçbir ilgisi olmadığı anlamına gelir; 7 puan kültürle güçlü bir şekilde ilişkili olduğu anlamına gelir).
+            </h4>
+        <h5><u>İpucu: Buradaki b. cümlenin kültürel tanımla belirli bir ilişkisi vardır, dolayısıyla 4-7 puan seçebilirsiniz.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q4-rating1" name="question4" value="1" required>
+            <label for="q4-rating1">1</label>
+            <input type="radio" id="q4-rating2" name="question4" value="2" required>
+            <label for="q4-rating2">2</label>
+            <input type="radio" id="q4-rating3" name="question4" value="3" required>
+            <label for="q4-rating3">3</label>
+            <input type="radio" id="q4-rating4" name="question4" value="4" required>
+            <label for="q4-rating4">4</label>
+            <input type="radio" id="q4-rating5" name="question4" value="5" required>
+            <label for="q4-rating5">5</label>
+            <input type="radio" id="q4-rating6" name="question4" value="6" required>
+            <label for="q4-rating6">6</label>
+            <input type="radio" id="q4-rating7" name="question4" value="7" required>
+            <label for="q4-rating7">7</label>
+        </div>
+        <br>
+        <h4 for="q5"><span class="grammar-label">Metin karşılaştırması --</span> Soru 5: Hem doğruluk hem de kültürel uyumluluk dikkate alındığında, <br>iki resmin açıklaması olarak hangi a cümlesi veya cümle b daha uygundur?
+        </h4>
+        <h5><u>İpucu: Açıkçası b cümlesi doğru bir tanımdır ve a ile karşılaştırıldığında b cümlesi kültürle daha alakalı olduğundan b cümlesini seçin.
+        </u></h5>
+        <div class="rating-container">
+            <input type="radio" id="q5-rating1" name="question5" value="1" required>
+            <label for="q5-rating1">1. Cümle a
+            </label>
+            <input type="radio" id="q5-rating2" name="question5" value="2" required>
+            <label for="q5-rating2">2. Cümle b            </label> <br>
+            <input type="radio" id="q5-rating3" name="question5" value="3" required>
+            <label for="q5-rating3">3. Kravat (aynı kalitede, ikisi de iyi)
+            </label>
+            <input type="radio" id="q5-rating4" name="question5" value="4" required>
+            <label for="q5-rating4">4. Kravat (aynı kalitede, ikisi de kötü)
+            </label>
+            <br>
+                <button type="submit" id="Submit_Button" class="submit_button">Göndermek</button>
+                <p id="user-progress" style="margin: 0;"></p>
+                <p id="user-username" style="margin: 0;"></p>
+                <input type="hidden" name="user_email" value="{{ request.GET.user_email }}">
+        </div>
+        <!-- Add more questions as needed -->
+    </form>
+</div>
+
+
+<script>
+    var startTime = new Date(); // 记录页面打开的时间
+    // 当提交按钮点击时计算时间差并设置隐藏字段的值
+    document.getElementById('Submit_Button').addEventListener('click', function () {
+        var currentTime = new Date();
+        var submissionTime = new Date(); // 当前时间作为提交时间
+        var evaluationTime = Math.floor((currentTime - startTime) / 1000); // 将时间差转换为整数秒数
+        // 设置隐藏字段的值
+        document.getElementById('submission_time_field').value = submissionTime.toISOString();
+        document.getElementById('evaluation_time_field').value = evaluationTime;
+    });
+</script>
+
+</body>
+</html>

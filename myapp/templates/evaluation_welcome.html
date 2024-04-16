@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Evaluation Tutorial</title>
+    <style>
+        /* 添加一些样式以美化页面 */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .step {
+            margin-bottom: 20px;
+        }
+
+        .fixed-image {
+            width: 800px;
+        }
+
+        .code {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+                .submit_button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 3px;
+            width: auto
+        }
+                    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      {#height: 100vh;#}
+    }
+
+    </style>
+</head>
+<body>
+<h1>Recipe Evaluation Tutorial</h1>
+{% load static %}
+<div class="step">
+    <h2>Introduction</h2>
+    <p>
+        Welcome to our recipe evaluation tutorial, where you will learn how to assess and compare an original recipe
+        with a culturally adapted version. This tutorial will provide you with a step-by-step process to evaluate
+        recipes using a 7-point scale. Let's dive in!
+    </p>
+</div>
+
+<div class="step">
+    <h2>Evaluation Process</h2>
+    <p>
+        a) Read and understand original recipe (left one) and culturally adapted recipe (right one) thoroughly.<br>
+        b) Assign a score from 1 to 7 for each of the four evaluation metrics (grammar, consistency, preservation,
+        cultural preservation) to the adapted recipe.<br>
+        c) Remember to be objective and provide a fair assessment.
+    </p>
+    <img src="{% static 'evaluate_example_1.png' %}" alt="Description of the picture" class="fixed-image">
+</div>
+
+<div class="step">
+    <h2>Evaluation Metrics</h2>
+    <h4><u>* Unless otherwise specified, the criteria should be applied to the culturally adapted recipe (<span
+            style="color:red">the right one</span>) and rated on a scale of 1 to 7.</u></h4>
+    <p>
+        a) Grammar: How would you rate its grammatical accuracy?<br>
+        1 - Poor grammar. 7 - Excellent grammar.
+    </p>
+    <p>
+        b) Consistency: Please rate its coherence and consistency when it is presented as an executable recipe,
+        including a coherent title, ingredients, and cooking steps<br>
+        1 - very poor consistency. 7 - excellent consistency.
+    </p>
+    <p>
+        c) Preservation: Please rate the extent to which it accurately describes a dish similar to the left recipe.<br>
+        1 - does not describe the similar dish at all. 7 - accurately describes the similar dish.
+    </p>
+    <p>
+        d) Cultural Appropriateness: Please rate the extent to which it fits within target cooking culture, is
+        consistent with target cooking knowledge, and meets a target recipe's style.<br>
+        1 - does not fit at all. 7 - fits perfectly
+    </p>
+</div>
+
+<div class="step">
+    <h2>Example Evaluation:</h2>
+
+    <h3>Case 1</h3>
+    <img src="{% static 'evaluate_example_2.png' %}" alt="Description of the picture" class="fixed-image">
+    <p>
+        My evaluation results for Case 1:</p>
+    <p>
+        Grammar: 7 (The sentence generated is fluent and free from grammar errors.)</p><p>
+    Consistency: 7 (I can confidently prepare this dish successfully by following the adapted recipe.)</p><p>
+    Preservation: 6 (The adapted recipe closely resembles the original dish in terms of ingredients and steps.)</p><p>
+        Cultural Appropriateness: 7 (The recipe has been culturally adapted to align with Chinese cooking traditions,
+        including the appropriate ingredients and steps.)
+    </p>
+
+    <h3>Case 2</h3>
+    <img src="{% static 'evaluate_example_3.png' %}" alt="Description of the picture" class="fixed-image">
+    <p>
+        My evaluation results for figure 2:</p><p>
+        Grammar: 2 (The sentence generated is not fluent and contains numerous grammar errors.)</p><p>
+        Consistency: 1 (Following this adapted recipe would not result in a successful preparation of the dish.)</p><p>
+        Preservation: 2 (The adapted recipe significantly deviates from the original dish in terms of title,
+        ingredients, and steps.)</p><p>
+        Cultural Appropriateness: 2 (The recipe has been poorly culturally adapted and does not align with Chinese
+        cooking traditions.)
+    </p>
+</div>
+<div class="container">
+<button class="submit_button" onclick="redirectToPage()" >Begin Comprehension Study</button>
+{#<button   class="button alt" onclick="redirectToPage()">Begin Comprehension Study</button>#}
+</div>
+    <script>
+    function redirectToPage() {
+        var direction = "{{ request.GET.direction }}"; // 使用模板语法获取 direction 参数的值
+        var user_email = "{{ request.GET.user_email }}"; // 使用模板语法获取 direction 参数的值
+        if (direction === "en2cn") {
+            window.location.href = "/evaluate_compre_en2cn/?user_email="+user_email;
+        } else if (direction === "cn2en") {
+            window.location.href = "/evaluate_compre_cn2en/?user_email="+user_email;
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Evaluation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+<body class="is-preload">
+<div id="page-wrapper">
+    <body>
+    <header id="header">
+        <h1 class="logo-text">Recipe Cultural Adaptation Project</h1>
+        <nav id="nav">
+{#            <ul>#}
+{#                <li><a href="/" )>Home</a></li>#}
+{#                {% if request.session.is_login %}#}
+{#                    <li><a href="/logout/" class="button">Log out</a></li>#}
+{#                {% else %}#}
+{#                    <li><a href="/loginin/" class="button">Sign in</a></li>#}
+{#                {% endif %}#}
+{#            </ul>#}
+        </nav>
+    </header>
+    <style>
+
+        /* 居中对齐文本 */
+        .center {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .submit_button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 3px;
+            width: auto
+        }
+
+        /* 左右模块布局 */
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 模块样式 */
+        .module {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+
+        .info_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 10vh;
+        }
+
+        .push_button {
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 3px;
+            display: inline-block;
+            width: auto
+        }
+
+        .grammar-label {
+            color: blue;
+        }
+
+        .push_button:hover {
+            opacity: 0.8;
+        }
+
+        .qs-content-wrapper {
+            margin-top: 30px; /* Increase the margin-top to create space for the heading */
+            text-align: center;
+        }
+    </style>
+
+    <div class="center">
+        <h2>食谱评估 (英语 → 中文)</h2>
+        <h4><u>请阅读下面的英语食谱（左）和文化适应后的中文食谱（右），并对下面的问题进行评分。</u></h4>
+    </div>
+    <!-- 左右模块布局 -->
+    <div class="container">
+        <!-- 左边模块 -->
+        <div class="module">
+            <h2>Source Recipes</h2>
+            <h4>Title：</h4>
+            <ul>{{ recipe.source_title }}</ul>
+            <h4>Ingredients：</h4>
+            <ol>
+                {% for ingredient in recipe.source_ingredients %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ol>
+            <h4>Steps：</h4>
+            <ol>
+                {% for ingredient in recipe.source_steps %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        <!-- 右边模块 -->
+        <div class="module">
+            {#            <form method="post" action="{% url 'submit_evaluation' %}">#}
+            <h2>文化适应后的食谱</h2>
+{#            <ul>{{ recipe.generated_recipe }} </ul>#}
+            {% if recipe.generated_recipe|length == 3 %}
+                <h4>标题：</h4>
+                <ul>{{ recipe.generated_recipe.0 }}</ul>
+                <h4>配料：</h4>
+                <ul>{{ recipe.generated_recipe.1 }}</ul>
+                <h4>步骤：</h4>
+                <ul>{{ recipe.generated_recipe.2 }}</ul>
+            {% else %}
+                <ul>{{ recipe.generated_recipe.0 }}</ul>
+            {% endif %}
+{#                            <ul>{{ recipe.methods }} </ul>#}
+            <input type="hidden" name="user_email" value="{{ request.session.user_id }}">
+            <input type="hidden" name="direction" value="cn2en">
+            {#            </form>#}
+        </div>
+    </div>
+
+    <div class="qs-content-wrapper">
+        <h2>问题</h2>
+        <h4><u>* 除非特殊说明, 以下问题的评估对象为文化适应后的食谱 (<span style="color:red">右</span>)，评分从<span style="color:red">1-7</span>分。</u></h4>
+        <form id="questionnaire-form" method="get" action="{% url 'submit_evaluation' %}">
+            <h4 for="q1"><span class="grammar-label">语法 --</span> 问题1：该食谱的语法准确性、文本流畅度。<br>(1表示非常差，7表示语法准确且流畅)。</h4>
+            <div class="rating-container">
+                <input type="radio" id="q1-rating1" name="question1" value="1" required>
+                <label for="q1-rating1">1</label>
+                <input type="radio" id="q1-rating2" name="question1" value="2" required>
+                <label for="q1-rating2">2</label>
+                <input type="radio" id="q1-rating3" name="question1" value="3" required>
+                <label for="q1-rating3">3</label>
+                <input type="radio" id="q1-rating4" name="question1" value="4" required>
+                <label for="q1-rating4">4</label>
+                <input type="radio" id="q1-rating5" name="question1" value="5" required>
+                <label for="q1-rating5">5</label>
+                <input type="radio" id="q1-rating6" name="question1" value="6" required>
+                <label for="q1-rating6">6</label>
+                <input type="radio" id="q1-rating7" name="question1" value="7" required>
+                <label for="q1-rating7">7</label>
+            </div>
+            <br>
+            <h4 for="q2"><span class="grammar-label">一致性 --</span> 问题2：该食谱是否准确地描述了一道食谱的标题、配料和步骤，是够具备较好的逻辑连贯性和一致性，<br>标题是否正确，根据该食谱的配料、步骤是否能做出该菜肴。
+                <br>(1分代表一致性差，根据该食谱无法做出该菜肴;7分代表一致性非常好，完全正确)。</h4>
+            <div class="rating-container">
+                <input type="radio" id="q2-rating1" name="question2" value="1" required>
+                <label for="q2-rating1">1</label>
+                <input type="radio" id="q2-rating2" name="question2" value="2" required>
+                <label for="q2-rating2">2</label>
+                <input type="radio" id="q2-rating3" name="question2" value="3" required>
+                <label for="q2-rating3">3</label>
+                <input type="radio" id="q2-rating4" name="question2" value="4" required>
+                <label for="q2-rating4">4</label>
+                <input type="radio" id="q2-rating5" name="question2" value="5" required>
+                <label for="q2-rating5">5</label>
+                <input type="radio" id="q2-rating6" name="question2" value="6" required>
+                <label for="q2-rating6">6</label>
+                <input type="radio" id="q2-rating7" name="question2" value="7" required>
+                <label for="q2-rating7">7</label>
+            </div>
+            <br>
+            <br>
+            <h4 for="q3"><span class="grammar-label">内容保留度 --</span> 问题3：该食谱和左侧的英文食谱描述的是否同一道菜谱。
+                <br>（1表示是完全不相关的菜肴，7表示准确地描述同一道菜肴）。</h4>
+            <div class="rating-container">
+                <input type="radio" id="q3-rating1" name="question3" value="1" required>
+                <label for="q3-rating1">1</label>
+                <input type="radio" id="q3-rating2" name="question3" value="2" required>
+                <label for="q3-rating2">2</label>
+                <input type="radio" id="q3-rating3" name="question3" value="3" required>
+                <label for="q3-rating3">3</label>
+                <input type="radio" id="q3-rating4" name="question3" value="4" required>
+                <label for="q3-rating4">4</label>
+                <input type="radio" id="q3-rating5" name="question3" value="5" required>
+                <label for="q3-rating5">5</label>
+                <input type="radio" id="q3-rating6" name="question3" value="6" required>
+                <label for="q3-rating6">6</label>
+                <input type="radio" id="q3-rating7" name="question3" value="7" required>
+                <label for="q3-rating7">7</label>
+            </div>
+            <br>
+            <h4 for="q4"><span class="grammar-label">文化适应性 --</span> 问题4：该食谱是否符合中国的烹饪文化、
+                是否和中国的烹饪知识、烹饪习惯保持一致。<br>（1表示完全不符合，7表示完美符合）。</h4>
+            <div class="rating-container">
+                <input type="radio" id="q4-rating1" name="question4" value="1" required>
+                <label for="q4-rating1">1</label>
+                <input type="radio" id="q4-rating2" name="question4" value="2" required>
+                <label for="q4-rating2">2</label>
+                <input type="radio" id="q4-rating3" name="question4" value="3" required>
+                <label for="q4-rating3">3</label>
+                <input type="radio" id="q4-rating4" name="question4" value="4" required>
+                <label for="q4-rating4">4</label>
+                <input type="radio" id="q4-rating5" name="question4" value="5" required>
+                <label for="q4-rating5">5</label>
+                <input type="radio" id="q4-rating6" name="question4" value="6" required>
+                <label for="q4-rating6">6</label>
+                <input type="radio" id="q4-rating7" name="question4" value="7" required>
+                <label for="q4-rating7">7</label><textarea id="comments" style="width:50%; margin: 0 auto;"
+                                                           name="comments"
+                                                           placeholder="* 若有疑问，请留下您的建议。"></textarea>
+                <button type="submit" id="Submit_Button" class="submit_button">提交</button>
+                <p id="user-progress" style="margin: 0;"></p>
+                <p id="user-username" style="margin: 0;"></p>
+                <input type="hidden" name="user_email" value="{{ request.GET.user_email }}">
+                <input type="hidden" name="direction" value="en2cn">
+                <input type="hidden" name="source_id" value="{{ recipe.source_id }}">
+                <input type="hidden" name="generated_recipe" value="{{ encodedGeneratedRecipe }}">
+                <input type="hidden" name="methods" value="{{ recipe.methods }}">
+                <input type="hidden" name="submission_time" id="submission_time_field">
+                <input type="hidden" name="evaluation_time" id="evaluation_time_field">
+            </div>
+            <!-- Add more questions as needed -->
+        </form>
+    </div>
+
+        <script>
+        var startTime = new Date(); // 记录页面打开的时间
+
+        // 当提交按钮点击时计算时间差并设置隐藏字段的值
+        document.getElementById('Submit_Button').addEventListener('click', function () {
+            var currentTime = new Date();
+            var submissionTime = new Date(); // 当前时间作为提交时间
+            var evaluationTime = Math.floor((currentTime - startTime) / 1000); // 将时间差转换为整数秒数
+            // 设置隐藏字段的值
+            document.getElementById('submission_time_field').value = submissionTime.toISOString();
+            document.getElementById('evaluation_time_field').value = evaluationTime;
+        });
+    </script>
+
+    <script>
+        var currentURL = window.location.href;
+        var params = new URLSearchParams(window.location.search);
+        var generatedRecipe = "{{ recipe.generated_recipe}}";
+        console.log(generatedRecipe)
+        var encodedGeneratedRecipe = encodeURIComponent(generatedRecipe);
+        if (params.has('user_email')) {
+            var user_email = params.get('user_email');
+        }
+        var userUsername = document.getElementById("user-username");
+        userUsername.textContent = "User: " + user_email
+        fetch('/get_user_evaluation_num/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"direction": 'en2cn', "username": user_email})
+        }) // 假设 '/api/user/count' 是获取用户数量的接口路径
+            .then(response => response.json())
+            .then(data => {
+                var userProgress = document.getElementById("user-progress");
+                userProgress.textContent = "Progress: " + data.record_count + "/3"
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            });
+    </script>
+
+
+    </body>
+</html>
